@@ -5,44 +5,93 @@
         <meta name="viewport" content="witdh/device/width, initial-scale=1.0">
          <link rel="icon" type="image/jpg" href="img/logo.jpg" />
          <title>CODE UPS</title>
+         <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-
     <header>
     <h1>CODE UPS</h1>
         <nav>
             <ol>
-                <li><a href="#Que es un grupo ASU?">Grupos ASU</a></li>
-                <li><a href="#Que es CodeUPS">CodeUPS</a></li>
-                <li><a href="#mision">Mision</a></li>
-                <li><a href="#vision">Vision</a></li>
+                <li><a href="#grupo-asu?">¿Qué es un Grupo ASU?</a></li>
+                <li><a href="#codeups">¿Qué es CodeUPS?</a></li>
+                <li><a href="#lineas-trabajo">Líneas de Trabajo</a></li>
+                <li><a href="#inscripcion">Inscripción</a></li>
             </ol>
         </nav>
     </header>
-<hr>
-    <section id="Que es un grupo ASU?">
-        <h2>1. Que es un Grupo ASU?</h2>
 
-        <p>Las siglas <Strong>ASU</Strong> hacen referencia a Asocianismo Salesiano Universitario,
-        por lo cual estos grupo son espacios donde estudiantes y docentes se reunen
-        para realizar y generar proyectos para la comunidad universitaria a pro de un 
-        desarrollo comunitario sostenido y libre de fines de lucro 
-        <p>
-    </section>
-<hr>
-    <section id="Que es CodeUPS">
-        <h2>2. Que es CodeUPS</h2>
-        <p> 
+        <section id="grupo-asu">
+            <h2>1. ¿Qué es un Grupo ASU?</h2>
 
-        </p>
-    </section>
-<hr> 
-    <section id="mision">
-        <h2>3. Mision</h2>
-    </section>
-<hr>
-    <section id="vision">
+            <p>Las siglas <Strong>ASU</Strong> hacen referencia a Asocianismo Salesiano Universitario,
+            por lo cual estos grupo son espacios donde estudiantes y docentes se reunen
+            para realizar y generar proyectos para la comunidad universitaria a pro de un 
+            desarrollo comunitario sostenido y libre de fines de lucro 
+            <p>
+        </section>
+
+        <hr>
+
+        <section id="codeups">
+            <h2>2. ¿Qué es CodeUPS?</h2>
+            <p> 
+
+            </p>
+        </section>
+
+        <section id="lineas-trabajo">
+            <h2>3. Líneas de Trabajo</h2>
+            <p>Conoce nuestras principales areas de trabajo</p>
+            <ul>
+            <li><strong>Desarrollo Web:</strong>Creacion Web usando HTML, CSS Y JS</li>
+            <li><Strong>Inteligencia Artificial:</Strong>Capacitacion y concientizacion del uso responsable de la IA en flujos de trabajo.</li>
+            <li><Strong>Vinculacion:</Strong>Campanas de alfabetizacion digital y ayuda en la comunidad.</li>
+         </ul>
+        </section>
+
+        <hr>
+
+        <section id="vision">
         <h2>4. Vision</h2>
-    </section>
+        <p>La visión de CodeUPS es ser una organización líder en el desarrollo de proyectos tecnológicos que impacten positivamente en la comunidad universitaria.</p>
+        </section>
+
+        <hr>
+
+        <section id="inscripcion">
+            <h2>4. Formulario de Inscripción</h2>
+            <form action="#" method="POST">
+                <fieldset>
+                    <legend>Datos del Estudiante</legend>
+                    
+                    <label for="nombre">Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+                    <br><br>
+
+                    <label for="correo">Correo institucional:</label>
+                    <input type="email" id="correo" name="correo" placeholder="usuario@est.ups.edu.ec" required>
+                    <br><br>
+
+                    <label for="area">Área de interés:</label>
+                    <select id="area" name="area" required>
+                        <option value="">-- Selecciona un área --</option>
+                        <option value="web">Desarrollo Web</option>
+                        <option value="ia">Inteligencia Artificial</option>
+                        <option value="comunidad">Vinculación</option>
+                    </select>
+                    <br><br>
+
+                    <button type="submit">Enviar Postulación</button>
+                    <button type="reset">Limpiar formulario</button>
+                </fieldset>
+            </form>
+        </section>
+    </main> 
+    <footer>
+        <address>Contacto: codeups@ups.edu.ec</address>
+        <p>&copy; 2026 CODE UPS - Universidad Politécnica Salesiana.</p>
+    </footer>
+
+    <script src="script.js"></script>      
 </body>
 </html>

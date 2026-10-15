@@ -1,0 +1,125 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFFFFF;
+    color: #002855;
+    line-height: 1.6;
+}
+
+hr {
+    display: none;
+}
+
+header {
+    background-color: #002855;
+    color: #FFFFFF;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 5px solid #FFCC00;
+}
+
+header h1 {
+    color: #FFCC00;
+    margin-bottom: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+nav a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+nav a:hover {
+    color: #FFCC00;
+}
+
+main {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+section {
+    background-color: #FFFFFF;
+    border: 2px solid #002855;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+section h2 {
+    color: #002855;
+    border-bottom: 3px solid #FFCC00;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+#lineas-trabajo ul {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+#lineas-trabajo li {
+    margin-bottom: 10px;
+}
+
+fieldset {
+    border: 2px solid #002855;
+    padding: 20px;
+}
+
+legend {
+    background-color: #002855;
+    color: #FFCC00;
+    padding: 5px 15px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #002855;
+    font-family: inherit;
+}
+
+button {
+    background-color: #002855;
+    color: #FFFFFF;
+    border: 2px solid #002855;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 15px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #FFCC00;
+    color: #002855;
+    border: 2px solid #FFCC00;
+}
+
+footer {
+    background-color: #002855;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 20px;
+    border-top: 5px solid #FFCC00;
+    margin-top: 40px;
+}
