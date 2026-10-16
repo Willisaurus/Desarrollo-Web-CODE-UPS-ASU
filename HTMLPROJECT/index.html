@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-        <meta charset="UTF=8">
-        <meta name="viewport" content="witdh/device/width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="witdh=device-width, initial-scale=1.0">
          <link rel="icon" type="image/jpg" href="img/logo.jpg" />
-         <title>CODE UPS</title>
+         <title>CODE UPS - Gupo ASU</title>
          <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
     <header>
-    <h1>CODE UPS</h1>
-        <nav>
-            <ol>
-                <li><a href="#grupo-asu?">¿Qué es un Grupo ASU?</a></li>
+    <div class="header-top">
+        <h1>CODE UPS</h1>
+        <button type="button" id="btn-menu" aria-expanded="false" aria-label="Abrir menú de navegacion">
+            ☰ Menu
+        </button>
+        </div>
+        <nav id="menu-nav">
+            <ul>
+                <li><a href="#grupo-asu">¿Qué es un Grupo ASU?</a></li>
                 <li><a href="#codeups">¿Qué es CodeUPS?</a></li>
                 <li><a href="#lineas-trabajo">Líneas de Trabajo</a></li>
+                <li><a href="#mision-vision">Mision y Visión</a></li>
                 <li><a href="#inscripcion">Inscripción</a></li>
-            </ol>
+            </ul>
         </nav>
     </header>
 
@@ -35,54 +41,83 @@
         <section id="codeups">
             <h2>2. ¿Qué es CodeUPS?</h2>
             <p> 
-
+                Code UPS es un grupo ASU que tiene como objetivo principal fomentar el desarrollo de 
+                habilidades tecnológicas y la innovación en la comunidad universitaria. A través de 
+                talleres, proyectos y actividades colaborativas, buscamos capacitar a los estudiantes 
+                en áreas como desarrollo web, inteligencia artificial y vinculación comunitaria.
             </p>
+            <figure class="contenedor-imagen">
+                <img src="img/logo.jpg" alt="Logo oficial de Code UPS" width="300" height="200">
+                <figcaption>Comunidad de desarrollo estudiantil CodeUPS</figcaption>
+            </figure>
         </section>
 
         <section id="lineas-trabajo">
             <h2>3. Líneas de Trabajo</h2>
             <p>Conoce nuestras principales areas de trabajo</p>
             <ul>
-            <li><strong>Desarrollo Web:</strong>Creacion Web usando HTML, CSS Y JS</li>
-            <li><Strong>Inteligencia Artificial:</Strong>Capacitacion y concientizacion del uso responsable de la IA en flujos de trabajo.</li>
-            <li><Strong>Vinculacion:</Strong>Campanas de alfabetizacion digital y ayuda en la comunidad.</li>
+                <li class="tarjeta">
+                    <h3>Desarrollo Web</h3>
+                    <p>Creación de sitios y aplicaciones web accesibles usando HTML5, CSS3 y JavaScript.</p>
+                </li>
+                <li class="tarjeta">
+                    <h3>Inteligencia Artificial</h3>
+                    <p>Capacitación y concientización sobre el uso ético y responsable de la IA en flujos de trabajo.</p>
+                </li>
+                <li class="tarjeta">
+                    <h3>Vinculación</h3>
+                    <p>Campañas de alfabetización digital, soporte técnico y ayuda tecnológica en la comunidad.</p>
+                </li>
          </ul>
         </section>
 
         <hr>
 
-        <section id="vision">
-        <h2>4. Vision</h2>
-        <p>La visión de CodeUPS es ser una organización líder en el desarrollo de proyectos tecnológicos que impacten positivamente en la comunidad universitaria.</p>
+        <section id="Mision y Vision">
+        <h2>4. Mision y Vision</h2>
+        <p>
+            La visión de CodeUPS es ser una organización estudiantil líder en el desarrollo de proyectos 
+            tecnológicos abiertos que impacten positivamente en la comunidad universitaria y la sociedad ecuatoriana.
+        </p>
         </section>
 
         <hr>
 
         <section id="inscripcion">
-            <h2>4. Formulario de Inscripción</h2>
-            <form action="#" method="POST">
+            <h2>5. Formulario de Inscripción</h2>
+            <form id="form-inscripcion" action="#" method="POST" novalidate>
                 <fieldset>
                     <legend>Datos del Estudiante</legend>
                     
-                    <label for="nombre">Nombre completo:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+                    <div class="campo-formulario">
+                        <label for="nombre">Nombre completo:</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+                    </div>
                     <br><br>
 
-                    <label for="correo">Correo institucional:</label>
-                    <input type="email" id="correo" name="correo" placeholder="usuario@est.ups.edu.ec" required>
+                    <div class="campo-formulario">
+                        <label for="correo">Correo institucional:</label>
+                        <input type="email" id="correo" name="correo" placeholder="usuario@est.ups.edu.ec" required>
                     <br><br>
+                    </div>
 
-                    <label for="area">Área de interés:</label>
-                    <select id="area" name="area" required>
-                        <option value="">-- Selecciona un área --</option>
-                        <option value="web">Desarrollo Web</option>
-                        <option value="ia">Inteligencia Artificial</option>
-                        <option value="comunidad">Vinculación</option>
-                    </select>
-                    <br><br>
+                    <div class="campo-formulario">
+                        <label for="area">Área de interés:</label>
+                        <select id="area" name="area" required>
+                            <option value="">-- Selecciona un área --</option>
+                            <option value="Desarrollo Web">Desarrollo Web</option>
+                            <option value="Inteligencia Artificail">Inteligencia Artificial</option>
+                            <option value="Vinculacion">Vinculación</option>
+                        </select>
+                    </div>
 
-                    <button type="submit">Enviar Postulación</button>
-                    <button type="reset">Limpiar formulario</button>
+                    <p id="mensaje-validacion" aria-live="polite"></p>
+                    
+                    <div class="grupo-botones"> 
+                        <button type="submit">Enviar Postulación</button>
+                        <button type="btn-limpiar">Limpiar formulario</button>
+                    </div>
+                    
                 </fieldset>
             </form>
         </section>
