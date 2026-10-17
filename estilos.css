@@ -93,7 +93,7 @@ a:focus, button:focus, input:focus, select:focus {
 }
 
 main {
-    max-width: 100px;
+    max-width: 1000px; /*corección de dimensiones*/
     margin: 20px auto;
     padding: 0 15px;
 }
@@ -134,7 +134,7 @@ img {
 
 .tarjeta {
     background-color: var(--gris-claro);
-    border-left: 5px solid var(--azul-ups);
+    border-left: 5px solid var(--azul);
     padding: 15px;
 }
 
@@ -179,7 +179,7 @@ input, select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
-    border: 1px solid #002855;
+    border: 1px solid var(--azul);
     font-family: inherit;
 }
 
@@ -209,28 +209,28 @@ button:hover {
 }
 
 .mensaje-error {
-    color: var(--rojo-error);
+    color: var(--rojo);
     font-weight: bold;
     margin-top: 10px;
 }
 
 .mensaje-exito {
-    color: var(--verde-exito);
+    color: var(--verde);
     font-weight: bold;
     margin-top: 10px;
 }
 
 footer {
-    background-color: #002855;
-    color: #FFFFFF;
+    background-color: var(--azul);
+    color: var(--blanco);
     text-align: center;
     padding: 20px;
-    border-top: 5px solid #FFCC00;
+    border-top: 5px solid var(--amarillo);
     margin-top: 40px;
 }
 
 footer a {
-    color: var(--amarillo-ups);
+    color: var(--amarillo);
 }
 
 /* Adaptacion para tablets */

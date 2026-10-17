@@ -26,6 +26,8 @@
         </nav>
     </header>
 
+    <main>
+
         <section id="grupo-asu">
             <h2>1. ¿Qué es un Grupo ASU?</h2>
 
@@ -55,7 +57,7 @@
         <section id="lineas-trabajo">
             <h2>3. Líneas de Trabajo</h2>
             <p>Conoce nuestras principales areas de trabajo</p>
-            <ul>
+            <ul class="tarjetas'contenedor"> <!-- Agregar clase para funcionamiento de tarjetas-->
                 <li class="tarjeta">
                     <h3>Desarrollo Web</h3>
                     <p>Creación de sitios y aplicaciones web accesibles usando HTML5, CSS3 y JavaScript.</p>
@@ -73,7 +75,7 @@
 
         <hr>
 
-        <section id="Mision y Vision">
+        <section id="mision y vision"> <!-- coreccion de typo-->
         <h2>4. Mision y Vision</h2>
         <p>
             La visión de CodeUPS es ser una organización estudiantil líder en el desarrollo de proyectos 
@@ -115,13 +117,14 @@
                     
                     <div class="grupo-botones"> 
                         <button type="submit">Enviar Postulación</button>
-                        <button type="btn-limpiar">Limpiar formulario</button>
+                        <button type="reset" id="btn-limpiar">Limpiar formulario</button> <!-- correccion de tipo y de id -->
                     </div>
                     
                 </fieldset>
             </form>
         </section>
     </main> 
+
     <footer>
         <address>Contacto: codeups@ups.edu.ec</address>
         <p>&copy; 2026 CODE UPS - Universidad Politécnica Salesiana.</p>
