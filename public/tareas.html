@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="img/logo.jpg">
+    <title>Mis tareas - CODE UPS</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <div class="header-top con-acciones">
+            <h1>CODE UPS</h1>
+            <div class="barra-usuario">
+                <span id="nombre-usuario"></span>
+                <button type="button" id="btn-logout">Cerrar sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <p id="aviso-tiempo-real" class="aviso" role="status" aria-live="polite" hidden></p>
+
+        <section id="nueva-tarea">
+            <h2 id="titulo-formulario">Nueva tarea o evento</h2>
+            <form id="form-tarea" novalidate>
+                <fieldset>
+                    <legend>Datos de la tarea</legend>
+
+                    <div class="campo-formulario">
+                        <label for="titulo">Título:</label>
+                        <input type="text" id="titulo" name="titulo" placeholder="Ej. Taller de Git" maxlength="100" required>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="descripcion">Descripción (opcional):</label>
+                        <textarea id="descripcion" name="descripcion" rows="3" maxlength="500"></textarea>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="area">Área:</label>
+                        <select id="area" name="area" required>
+                            <option value="">-- Selecciona un área --</option>
+                            <option value="Desarrollo Web">Desarrollo Web</option>
+                            <option value="Inteligencia Artificial">Inteligencia Artificial</option>
+                            <option value="Vinculación">Vinculación</option>
+                        </select>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="fechaEntrega">Fecha de entrega:</label>
+                        <input type="date" id="fechaEntrega" name="fechaEntrega" required>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="estado">Estado:</label>
+                        <select id="estado" name="estado">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Progreso">En Progreso</option>
+                            <option value="Completada">Completada</option>
+                        </select>
+                    </div>
+
+                    <p id="mensaje-tarea" aria-live="polite"></p>
+
+                    <div class="grupo-botones">
+                        <button type="submit" id="btn-guardar">Guardar tarea</button>
+                        <button type="button" id="btn-cancelar" hidden>Cancelar edición</button>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+
+        <section id="lista">
+            <h2>Tareas y eventos programados</h2>
+            <p id="lista-vacia" hidden>Todavía no hay tareas registradas.</p>
+            <ul id="lista-tareas" class="lista-tareas"></ul>
+        </section>
+    </main>
+
+    <footer>
+        <address>Contacto: codeups@ups.edu.ec</address>
+        <p>&copy; 2026 CODE UPS - Universidad Politécnica Salesiana.</p>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/tareas.js"></script>
+</body>
+</html>
+

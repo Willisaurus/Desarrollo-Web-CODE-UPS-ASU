@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="witdh=device-width, initial-scale=1.0">
-         <link rel="icon" type="image/jpg" href="img/logo.jpg" />
-         <title>CODE UPS - Gupo ASU</title>
-         <link rel="stylesheet" href="estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="img/logo.jpg">
+    <title>CODE UPS - Grupo ASU</title>
+    <link rel="stylesheet" href="estilos.css">
 </head>
+
 <body>
     <header>
-    <div class="header-top">
-        <h1>CODE UPS</h1>
-        <button type="button" id="btn-menu" aria-expanded="false" aria-label="Abrir menú de navegacion">
-            ☰ Menu
-        </button>
+        <div class="header-top">
+            <h1>CODE UPS</h1>
+            <button type="button" id="btn-menu" aria-expanded="false" aria-controls="menu-nav"
+                aria-label="Abrir menú de navegación">
+                ☰ Menú
+            </button>
         </div>
         <nav id="menu-nav">
             <ul>
                 <li><a href="#grupo-asu">¿Qué es un Grupo ASU?</a></li>
                 <li><a href="#codeups">¿Qué es CodeUPS?</a></li>
                 <li><a href="#lineas-trabajo">Líneas de Trabajo</a></li>
-                <li><a href="#mision-vision">Mision y Visión</a></li>
+                <li><a href="#mision-vision">Misión y Visión</a></li>
                 <li><a href="#inscripcion">Inscripción</a></li>
+                <li><a href="login.html">Iniciar sesión</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-
         <section id="grupo-asu">
             <h2>1. ¿Qué es un Grupo ASU?</h2>
-
-            <p>Las siglas <Strong>ASU</Strong> hacen referencia a Asocianismo Salesiano Universitario,
-            por lo cual estos grupo son espacios donde estudiantes y docentes se reunen
-            para realizar y generar proyectos para la comunidad universitaria a pro de un 
-            desarrollo comunitario sostenido y libre de fines de lucro 
             <p>
+                Las siglas <strong>ASU</strong> hacen referencia a Asociacionismo Salesiano Universitario,
+                por lo cual estos grupos son espacios donde estudiantes y docentes se reúnen
+                para realizar y generar proyectos para la comunidad universitaria en pro de un
+                desarrollo comunitario sostenido y libre de fines de lucro.
+            </p>
         </section>
-
-        <hr>
 
         <section id="codeups">
             <h2>2. ¿Qué es CodeUPS?</h2>
-            <p> 
-                Code UPS es un grupo ASU que tiene como objetivo principal fomentar el desarrollo de 
-                habilidades tecnológicas y la innovación en la comunidad universitaria. A través de 
-                talleres, proyectos y actividades colaborativas, buscamos capacitar a los estudiantes 
+            <p>
+                Code UPS es un grupo ASU que tiene como objetivo principal fomentar el desarrollo de
+                habilidades tecnológicas y la innovación en la comunidad universitaria. A través de
+                talleres, proyectos y actividades colaborativas, buscamos capacitar a los estudiantes
                 en áreas como desarrollo web, inteligencia artificial y vinculación comunitaria.
             </p>
             <figure class="contenedor-imagen">
@@ -56,51 +57,55 @@
 
         <section id="lineas-trabajo">
             <h2>3. Líneas de Trabajo</h2>
-            <p>Conoce nuestras principales areas de trabajo</p>
-            <ul class="tarjetas-contenedor"> <!-- Agregar clase para funcionamiento de tarjetas-->
+            <p>Conoce nuestras principales áreas de trabajo</p>
+            <ul class="tarjetas-contenedor">
                 <li class="tarjeta">
                     <h3>Desarrollo Web</h3>
                     <p>Creación de sitios y aplicaciones web accesibles usando HTML5, CSS3 y JavaScript.</p>
                 </li>
                 <li class="tarjeta">
                     <h3>Inteligencia Artificial</h3>
-                    <p>Capacitación y concientización sobre el uso ético y responsable de la IA en flujos de trabajo.</p>
+                    <p>Capacitación y concientización sobre el uso ético y responsable de la IA en flujos de trabajo.
+                    </p>
                 </li>
                 <li class="tarjeta">
                     <h3>Vinculación</h3>
                     <p>Campañas de alfabetización digital, soporte técnico y ayuda tecnológica en la comunidad.</p>
                 </li>
-         </ul>
+            </ul>
         </section>
 
-        <hr>
-
-        <section id="mision-vision"> <!-- coreccion de typo-->
-        <h2>4. Mision y Vision</h2>
-        <p>
-            La visión de CodeUPS es ser una organización estudiantil líder en el desarrollo de proyectos 
-            tecnológicos abiertos que impacten positivamente en la comunidad universitaria y la sociedad ecuatoriana.
-        </p>
+        <section id="mision-vision">
+            <h2>4. Misión y Visión</h2>
+            <p>
+                La visión de CodeUPS es ser una organización estudiantil líder en el desarrollo de proyectos
+                tecnológicos abiertos que impacten positivamente en la comunidad universitaria y la sociedad
+                ecuatoriana.
+            </p>
         </section>
-
-        <hr>
 
         <section id="inscripcion">
             <h2>5. Formulario de Inscripción</h2>
-            <form id="form-inscripcion" action="#" method="POST" novalidate>
+            <form id="form-inscripcion" novalidate>
                 <fieldset>
                     <legend>Datos del Estudiante</legend>
-                    
+
                     <div class="campo-formulario">
                         <label for="nombre">Nombre completo:</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+                        <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" autocomplete="name"
+                            required>
                     </div>
-                    <br><br>
 
                     <div class="campo-formulario">
                         <label for="correo">Correo institucional:</label>
-                        <input type="email" id="correo" name="correo" placeholder="usuario@est.ups.edu.ec" required>
-                    <br><br>
+                        <input type="email" id="correo" name="correo" placeholder="usuario@est.ups.edu.ec"
+                            autocomplete="email" required>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="password">Contraseña:</label>
+                        <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres"
+                            autocomplete="new-password" required>
                     </div>
 
                     <div class="campo-formulario">
@@ -108,28 +113,30 @@
                         <select id="area" name="area" required>
                             <option value="">-- Selecciona un área --</option>
                             <option value="Desarrollo Web">Desarrollo Web</option>
-                            <option value="Inteligencia Artificail">Inteligencia Artificial</option>
-                            <option value="Vinculacion">Vinculación</option>
+                            <option value="Inteligencia Artificial">Inteligencia Artificial</option>
+                            <option value="Vinculación">Vinculación</option>
                         </select>
                     </div>
 
                     <p id="mensaje-validacion" aria-live="polite"></p>
-                    
-                    <div class="grupo-botones"> 
-                        <button type="submit">Enviar Postulación</button>
-                        <button type="reset" id="btn-limpiar">Limpiar formulario</button> <!-- correccion de tipo y de id -->
+
+                    <div class="grupo-botones">
+                        <button type="submit">Registrarme</button>
+                        <button type="reset" id="btn-limpiar">Limpiar formulario</button>
                     </div>
-                    
                 </fieldset>
             </form>
+            <p class="texto-ayuda">¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
         </section>
-    </main> 
+    </main>
 
     <footer>
         <address>Contacto: codeups@ups.edu.ec</address>
         <p>&copy; 2026 CODE UPS - Universidad Politécnica Salesiana.</p>
     </footer>
 
-    <script src="script.js"></script>      
+    <script src="js/api.js"></script>
+    <script src="js/inicio.js"></script>
 </body>
+
 </html>

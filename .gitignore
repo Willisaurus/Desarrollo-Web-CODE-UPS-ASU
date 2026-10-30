@@ -1,7 +1,5 @@
-# Dependencias
-# Dependencias
+# Dependencias (package-lock.json SÍ se sube al repositorio)
 node_modules/
-package-lock.json
 
 # Variables de entorno y credenciales
 .env
@@ -12,7 +10,6 @@ package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-lerna-debug.log*
 *.log
 
 # Archivos del sistema operativo y editores
@@ -26,29 +23,3 @@ desktop.ini
 *.tmp
 *.temp
 .cache/
-package-lock.json
-
-# Variables de entorno y credenciales
-.env
-.env.local
-.env.*.local
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-*.log
-
-# Archivos del sistema operativo y editores
-.DS_Store
-Thumbs.db
-desktop.ini
-.vscode/
-.idea/
-
-# Temporales y caches
-*.tmp
-*.temp
-.cache/
-node_modules/
