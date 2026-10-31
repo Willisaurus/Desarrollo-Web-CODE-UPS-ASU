@@ -26,7 +26,7 @@ function formatearFecha(fechaIso) {
 }
 
 function esTareaPropia(tarea) {
-    return tarea.creadoPor !== null && tarea.creadoPor._id === usuarioActual.id;
+    return tarea.creadoPor !== null && String(tarea.creadoPor._id) === String(usuarioActual.id);
 }
 
 function crearElemento(etiqueta, texto, clase) {

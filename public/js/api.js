@@ -21,11 +21,11 @@ async function pedirApi(metodo, ruta, datos) {
 }
 
 function obtenerMensajeError(cuerpo) {
-    const detalles = cuerpo.error.detalles;
+    const detalles = (cuerpo && cuerpo.error && cuerpo.error.detalles) || [];
     if (detalles.length > 0) {
         return detalles.map(detalle => detalle.msg).join(' ');
     }
-    return cuerpo.error.mensaje;
+    return (cuerpo && cuerpo.error && cuerpo.error.mensaje) || 'Ocurrió un error';
 }
 
 function mostrarMensaje(elemento, texto, tipo) {

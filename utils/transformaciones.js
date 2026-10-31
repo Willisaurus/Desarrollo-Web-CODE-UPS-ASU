@@ -9,13 +9,13 @@ function formatearExito(mensaje, datos) {
     return { exito: true, mensaje, datos };
 }
 
-function construirDatosTarea(cuerpo, usuarioId) {
+function construirDatosTarea(cuerpo, usuarioId, estadoActual = 'Pendiente') {
     return {
         titulo: cuerpo.titulo,
         descripcion: cuerpo.descripcion || '',
         area: cuerpo.area,
         fechaEntrega: cuerpo.fechaEntrega,
-        estado: cuerpo.estado || 'Pendiente',
+        estado: cuerpo.estado || estadoActual,
         creadoPor: usuarioId
     };
 }

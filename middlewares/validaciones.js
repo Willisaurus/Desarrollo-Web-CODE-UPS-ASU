@@ -16,7 +16,9 @@ const reglasRegistro = [
 ];
 
 const reglasLogin = [
-    body('correo').trim().toLowerCase().notEmpty().withMessage('Ingrese su correo'),
+    body('correo').trim().toLowerCase()
+        .notEmpty().withMessage('Ingrese su correo')
+        .isEmail().withMessage('Debe ser un correo válido'),
     body('password').notEmpty().withMessage('Ingrese su contraseña')
 ];
 
@@ -40,4 +42,3 @@ module.exports = {
     reglasTarea,
     reglaId
 };
-

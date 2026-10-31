@@ -13,6 +13,11 @@ function iniciarNotificaciones(servidorHttp, middlewareSesion) {
         }
         next(new Error('No autorizado'));
     });
+
+    io.on('connection', socket => {
+        const usuarioId = String(socket.request.session.usuarioId);
+        socket.join(usuarioId);
+    });
 }
 
 function notificar(evento, datos) {
@@ -21,8 +26,14 @@ function notificar(evento, datos) {
     }
 }
 
+function desconectarUsuario(usuarioId) {
+    if (io && usuarioId) {
+        io.in(String(usuarioId)).disconnectSockets(true);
+    }
+}
+
 module.exports = {
     iniciarNotificaciones,
-    notificar
+    notificar,
+    desconectarUsuario
 };
-

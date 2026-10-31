@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const Estudiante = require('../models/Estudiante');
+const { desconectarUsuario } = require('../servicios/notificaciones');
 const {
     formatearError,
     formatearExito,
@@ -35,7 +36,7 @@ async function iniciarSesion(req, res, next) {
     const { correo, password } = req.body;
 
     try {
-        const estudiante = await Estudiante.findOne({ correo });
+        const estudiante = await Estudiante.findOne({ correo }).select('+password');
         const coincide = estudiante !== null && await bcrypt.compare(password, estudiante.password);
 
         if (!coincide) {
@@ -59,6 +60,9 @@ function obtenerPerfil(req, res) {
 }
 
 function cerrarSesion(req, res, next) {
+    const usuarioId = req.session.usuarioId;
+    desconectarUsuario(usuarioId);
+
     req.session.destroy(error => {
         if (error) {
             return next(error);
@@ -74,4 +78,3 @@ module.exports = {
     obtenerPerfil,
     cerrarSesion
 };
-

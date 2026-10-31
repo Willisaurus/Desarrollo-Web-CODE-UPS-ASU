@@ -9,6 +9,7 @@ const {
 
 const CAMPOS_AUTOR = 'nombre correo area';
 const MENSAJE_DUPLICADA = 'Ya tienes una tarea con ese título para esa fecha';
+const CODIGO_DUPLICADO = 11000;
 
 async function existeDuplicada(datos, idActual) {
     const duplicada = await Tarea.findOne({
@@ -58,13 +59,16 @@ async function crearTarea(req, res, next) {
 
         res.status(201).json(formatearExito('Tarea creada exitosamente', tarea));
     } catch (error) {
+        if (error.code === CODIGO_DUPLICADO) {
+            return res.status(409).json(formatearError(MENSAJE_DUPLICADA));
+        }
         next(error);
     }
 }
 
 async function actualizarTarea(req, res, next) {
     try {
-        const datos = construirDatosTarea(req.body, req.session.usuarioId);
+        const datos = construirDatosTarea(req.body, req.session.usuarioId, req.tarea.estado);
 
         if (await existeDuplicada(datos, req.params.id)) {
             return res.status(409).json(formatearError(MENSAJE_DUPLICADA));
@@ -79,6 +83,9 @@ async function actualizarTarea(req, res, next) {
         notificar('tarea:actualizada', crearAviso(tarea, req.session));
         res.status(200).json(formatearExito('Tarea actualizada', tarea));
     } catch (error) {
+        if (error.code === CODIGO_DUPLICADO) {
+            return res.status(409).json(formatearError(MENSAJE_DUPLICADA));
+        }
         next(error);
     }
 }
@@ -101,4 +108,3 @@ module.exports = {
     actualizarTarea,
     eliminarTarea
 };
-

@@ -22,4 +22,10 @@ const tareaSchema = new mongoose.Schema({
     }
 });
 
+// Índice único compuesto: impide en base de datos que un estudiante duplique título y fecha
+tareaSchema.index(
+    { titulo: 1, fechaEntrega: 1, creadoPor: 1 },
+    { unique: true }
+);
+
 module.exports = mongoose.model('Tarea', tareaSchema);

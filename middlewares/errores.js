@@ -8,6 +8,9 @@ function manejarErrores(err, req, res, next) {
     if (err.type === 'entity.parse.failed') {
         return res.status(400).json(formatearError('El cuerpo de la petición no es un JSON válido'));
     }
+    if (err.code === 11000) {
+        return res.status(409).json(formatearError('Ya existe un registro con esos datos'));
+    }
     if (err.name === 'ValidationError' || err.name === 'CastError') {
         return res.status(400).json(formatearError('Datos de entrada inválidos'));
     }
@@ -19,4 +22,3 @@ module.exports = {
     rutaNoEncontrada,
     manejarErrores
 };
-

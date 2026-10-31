@@ -45,14 +45,25 @@ app.use(manejarErrores);
 
 iniciarNotificaciones(servidor, sesion);
 
-mongoose.connect(MONGO_URI)
-    .then(() => {
-        console.log('Conectado a MongoDB exitosamente');
-        servidor.listen(PORT, () => {
-            console.log(`Servidor de CodeUPS ejecutándose en http://localhost:${PORT}`);
+async function iniciarServidor(uri = MONGO_URI, puerto = PORT) {
+    await mongoose.connect(uri);
+    return new Promise(resolver => {
+        servidor.listen(puerto, () => {
+            resolver(servidor);
         });
-    })
-    .catch(err => {
-        console.error('Error de conexión a MongoDB:', err.message);
-        process.exit(1);
     });
+}
+
+if (require.main === module) {
+    iniciarServidor()
+        .then(() => {
+            console.log('Conectado a MongoDB exitosamente');
+            console.log(`Servidor de CodeUPS ejecutándose en http://localhost:${PORT}`);
+        })
+        .catch(err => {
+            console.error('Error de conexión a MongoDB:', err.message);
+            process.exit(1);
+        });
+}
+
+module.exports = { app, servidor, iniciarServidor };

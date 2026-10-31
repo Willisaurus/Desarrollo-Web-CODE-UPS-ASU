@@ -3,7 +3,7 @@ Asignatura: Aplicaciones Web
 
 API hecha con Node.js, Express y MongoDB para que los estudiantes de CodeUPS se registren, inicien sesión y gestionen tareas y eventos.
 
-Estructura
+Aplicación web y API REST desarrollada con **Node.js, Express, MongoDB (Mongoose) y Socket.IO** para que los estudiantes del grupo ASU CodeUPS puedan registrarse con su correo institucional, iniciar sesión y gestionar tareas y eventos en tiempo real.
 
 index.js             -> arranca Express y se conecta a MongoDB
 config/constantes.js -> áreas y estados permitidos
