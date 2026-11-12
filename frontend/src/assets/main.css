@@ -20,65 +20,11 @@ body {
     line-height: 1.6;
 }
 
-header {
-    background-color: var(--azul);
-    color: var(--blanco);
-    padding: 15px 20px;
-    border-bottom: 5px solid var(--amarillo);
-}
-
-.header-top {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-header h1 {
-    color: var(--amarillo);
-    font-size: 1.5rem;
-}
-
-header h1 a {
-    color: var(--amarillo);
-    text-decoration: none;
-}
-
-nav ul {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-}
-
-nav a {
-    color: var(--blanco);
-    text-decoration: none;
-    font-weight: bold;
-    padding: 6px 10px;
-    border-radius: 4px;
-}
-
-nav a:hover,
-nav a.router-link-active {
-    background-color: var(--amarillo);
-    color: var(--azul);
-}
-
 main {
     max-width: 1000px;
     margin: 20px auto;
     padding: 0 15px;
     min-height: 75vh;
-}
-
-.contenedor-angosto {
-    max-width: 520px;
-    margin: 20px auto;
 }
 
 section {
@@ -96,22 +42,10 @@ section h2 {
     margin-bottom: 15px;
 }
 
-.contenedor-imagen {
-    margin-top: 15px;
-    text-align: center;
-}
-
 img {
     max-width: 100%;
     height: auto;
     border: 2px solid var(--azul);
-}
-
-.tarjetas-contenedor {
-    list-style-type: none;
-    display: grid;
-    gap: 15px;
-    margin-top: 15px;
 }
 
 .tarjeta {
@@ -158,6 +92,11 @@ textarea {
     resize: vertical;
 }
 
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+    outline: 3px solid var(--amarillo);
+    outline-offset: 2px;
+}
+
 .grupo-botones {
     display: flex;
     flex-wrap: wrap;
@@ -181,30 +120,6 @@ button:hover {
     border: 2px solid var(--amarillo);
 }
 
-.boton-secundario {
-    background-color: transparent;
-    color: var(--amarillo);
-    border-color: var(--amarillo);
-    padding: 6px 12px;
-}
-
-.boton-peligro {
-    background-color: var(--rojo);
-    border-color: var(--rojo);
-}
-
-.mensaje-error {
-    color: var(--rojo);
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.mensaje-exito {
-    color: var(--verde);
-    font-weight: bold;
-    margin-top: 10px;
-}
-
 .texto-ayuda {
     margin-top: 15px;
 }
@@ -212,73 +127,4 @@ button:hover {
 .texto-ayuda a {
     color: var(--azul);
     font-weight: bold;
-}
-
-.aviso {
-    position: sticky;
-    top: 10px;
-    z-index: 10;
-    background-color: var(--amarillo);
-    color: var(--azul);
-    border-left: 5px solid var(--azul);
-    padding: 10px 15px;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
-.lista-tareas {
-    list-style-type: none;
-    display: grid;
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.lista-tareas .tarjeta p {
-    margin-top: 5px;
-}
-
-.estado {
-    display: inline-block;
-    padding: 2px 10px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    border-radius: 3px;
-}
-
-.estado-pendiente {
-    background-color: var(--amarillo);
-    color: var(--azul);
-}
-
-.estado-progreso {
-    background-color: var(--azul);
-    color: var(--blanco);
-}
-
-.estado-completada {
-    background-color: var(--verde);
-    color: var(--blanco);
-}
-
-.autor {
-    font-style: italic;
-}
-
-footer {
-    background-color: var(--azul);
-    color: var(--blanco);
-    text-align: center;
-    padding: 20px;
-    border-top: 5px solid var(--amarillo);
-    margin-top: 40px;
-}
-
-@media (min-width: 768px) {
-    .tarjetas-contenedor {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .lista-tareas {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
