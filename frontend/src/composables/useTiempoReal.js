@@ -1,6 +1,7 @@
 import { ref, onMounted, onUnmounted, toValue } from 'vue'
 import { io } from 'socket.io-client'
 
+const API_URL = import.meta.env.VITE_API_URL || undefined
 const DURACION_AVISO = 5000
 const ACCIONES = {
   'tarea:creada': 'creó',
@@ -29,7 +30,7 @@ export function useTiempoReal(alCambiar, usuarioId) {
   }
 
   onMounted(() => {
-    socket = io()
+    socket = io(API_URL, { withCredentials: true })
     Object.keys(ACCIONES).forEach(evento => {
       socket.on(evento, datos => manejarCambio(evento, datos))
     })

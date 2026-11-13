@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL || ''
 const MENSAJE_RED = 'No se pudo conectar con el servidor. Verifica que el backend esté en ejecución.'
 
 function crearCuerpoError(mensaje) {
@@ -25,7 +26,7 @@ async function solicitar(metodo, ruta, { datos, signal } = {}) {
   }
 
   try {
-    const respuesta = await fetch(ruta, opciones)
+    const respuesta = await fetch(`${API_URL}${ruta}`, opciones)
     const cuerpo = await leerCuerpo(respuesta)
 
     if (!respuesta.ok) {

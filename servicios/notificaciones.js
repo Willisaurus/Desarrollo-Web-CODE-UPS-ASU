@@ -2,8 +2,8 @@ const { Server } = require('socket.io');
 
 let io = null;
 
-function iniciarNotificaciones(servidorHttp, middlewareSesion) {
-    io = new Server(servidorHttp);
+function iniciarNotificaciones(servidorHttp, middlewareSesion, opcionesCors) {
+    io = new Server(servidorHttp, { cors: opcionesCors });
     io.engine.use(middlewareSesion);
 
     io.use((socket, next) => {
