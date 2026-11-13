@@ -59,4 +59,16 @@ router.beforeEach(async (to) => {
   }
 })
 
+app.set('trust proxy', 1);
+app.use(cors({
+  origin: 'https://tu-proyecto.vercel.app',
+  credentials: true
+}));
+// En la configuración de session():
+cookie: {
+  httpOnly: true,
+    secure; true,
+      sameSite; 'none'
+}
+
 export default router

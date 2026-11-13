@@ -1,0 +1,10 @@
+flowchart LR
+    C["Cliente Web (public/)"] <-->|"HTTP JSON / WebSocket"| I["index.js"]
+    I --> R["routes/ (Enrutamiento)"]
+    R --> M["middlewares/ (Validación y Seguridad)"]
+    M --> CT["controllers/ (Coordinación E/S)"]
+    CT --> U["utils/transformaciones.js (Funciones Puras)"]
+    CT --> MD["models/ (Mongoose ODM)"]
+    CT --> S["servicios/notificaciones.js (Socket.IO)"]
+    MD <--> DB[("MongoDB codeups_db")]
+
