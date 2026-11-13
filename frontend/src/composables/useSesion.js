@@ -1,5 +1,12 @@
-import { computed } from 'vue'
-import { estadoSesion, pedirApi, obtenerMensajeError, limpiarSesionLocal } from '../services/api'
+import { reactive, computed } from 'vue'
+import { authApi, obtenerMensajeError } from '../services/api'
+
+const estadoSesion = reactive({
+  usuario: null,
+  verificado: false,
+})
+
+let verificacionEnCurso = null
 
 function crearResultado(respuesta) {
   return respuesta.ok
@@ -7,12 +14,37 @@ function crearResultado(respuesta) {
     : { ok: false, mensaje: obtenerMensajeError(respuesta.cuerpo) }
 }
 
+export function limpiarSesionLocal() {
+  estadoSesion.usuario = null
+  estadoSesion.verificado = true
+}
+
+export function verificarSesionActiva(forzar = false) {
+  if (estadoSesion.verificado && !forzar) {
+    return Promise.resolve(estadoSesion.usuario)
+  }
+
+  if (!verificacionEnCurso) {
+    verificacionEnCurso = authApi.perfil()
+      .then(respuesta => {
+        estadoSesion.usuario = respuesta.ok ? respuesta.cuerpo.datos : null
+        estadoSesion.verificado = respuesta.estado !== 0
+        return estadoSesion.usuario
+      })
+      .finally(() => {
+        verificacionEnCurso = null
+      })
+  }
+
+  return verificacionEnCurso
+}
+
 export function useSesion() {
   const usuario = computed(() => estadoSesion.usuario)
   const autenticado = computed(() => estadoSesion.usuario !== null)
 
   async function iniciarSesion(datos) {
-    const respuesta = await pedirApi('POST', '/api/auth/login', datos)
+    const respuesta = await authApi.iniciarSesion(datos)
     if (respuesta.ok) {
       estadoSesion.usuario = respuesta.cuerpo.datos
       estadoSesion.verificado = true
@@ -21,15 +53,21 @@ export function useSesion() {
   }
 
   async function registrar(datos) {
-    const respuesta = await pedirApi('POST', '/api/auth/registro', datos)
-    return crearResultado(respuesta)
+    return crearResultado(await authApi.registrar(datos))
   }
 
   async function cerrarSesion() {
-    await pedirApi('POST', '/api/auth/logout')
+    await authApi.cerrarSesion()
     limpiarSesionLocal()
   }
 
-  return { usuario, autenticado, iniciarSesion, registrar, cerrarSesion }
+  return {
+    usuario,
+    autenticado,
+    iniciarSesion,
+    registrar,
+    cerrarSesion,
+    verificar: verificarSesionActiva,
+    expulsar: limpiarSesionLocal,
+  }
 }
-

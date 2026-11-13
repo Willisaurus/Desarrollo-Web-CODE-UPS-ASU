@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#002855">
+    <title>Sin conexión - CODE UPS</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background-color: #F4F6F9;
+        color: #002855;
+        text-align: center;
+      }
+      main {
+        max-width: 480px;
+        background-color: #FFFFFF;
+        border: 2px solid #002855;
+        border-top: 6px solid #FFCC00;
+        border-radius: 5px;
+        padding: 24px;
+      }
+      h1 { margin-top: 0; }
+      button {
+        margin-top: 16px;
+        min-height: 44px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #FFFFFF;
+        background-color: #002855;
+        border: 2px solid #002855;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Sin conexión</h1>
+      <p>
+        No pudimos cargar CODE UPS porque tu dispositivo no tiene internet.
+        Revisa tu conexión e inténtalo de nuevo.
+      </p>
+      <button type="button" onclick="location.reload()">Reintentar</button>
+    </main>
+  </body>
+</html>
+

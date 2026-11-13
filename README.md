@@ -32,3 +32,17 @@ Endpoints
 | PUT | /api/tareas/:id | Actualizar tarea (solo su creador) |
 | DELETE | /api/tareas/:id | Eliminar tarea (solo su creador) |
 
+
+---
+
+## 5. Frontend (Vue 3 SPA + PWA)
+
+El frontend vive en [`frontend/`](frontend/README.md) y consume esta API. Ver el [informe técnico](docs/informe_tecnico.md).
+
+```bash
+npm start                                  # backend en :3000
+npm install --prefix frontend
+npm run dev --prefix frontend              # desarrollo en :5173
+npm run build --prefix frontend            # build de producción
+npm run preview --prefix frontend          # PWA con Service Worker en :4173
+```

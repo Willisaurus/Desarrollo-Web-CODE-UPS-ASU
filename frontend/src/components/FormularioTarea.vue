@@ -5,6 +5,7 @@ import MensajeEstado from './MensajeEstado.vue'
 
 const props = defineProps({
   tareaEdicion: { type: Object, default: null },
+  enviando: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['guardar', 'cancelar'])
@@ -98,8 +99,14 @@ function enviar() {
       <MensajeEstado :texto="error" tipo="error" />
 
       <div class="grupo-botones">
-        <button type="submit">{{ esEdicion ? 'Guardar cambios' : 'Guardar tarea' }}</button>
-        <button v-if="esEdicion" type="button" @click="emit('cancelar')">Cancelar edición</button>
+        <button type="submit" :disabled="enviando">
+          <template v-if="enviando">Guardando...</template>
+          <template v-else-if="esEdicion">Guardar cambios</template>
+          <template v-else>Guardar tarea</template>
+        </button>
+        <button v-if="esEdicion" type="button" :disabled="enviando" @click="emit('cancelar')">
+          Cancelar edición
+        </button>
       </div>
     </fieldset>
   </form>

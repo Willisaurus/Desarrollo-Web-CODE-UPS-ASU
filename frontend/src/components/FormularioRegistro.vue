@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useSesion } from '../composables/useSesion'
 import { useValidaciones } from '../composables/useValidaciones'
 import { useMensaje } from '../composables/useMensaje'
@@ -24,7 +24,13 @@ function limpiarFormulario() {
   limpiar()
 }
 
+const enviando = ref(false)
+
 async function enviar() {
+  if (enviando.value) {
+    return
+  }
+
   const error = validarRegistro(formulario)
   if (error) {
     mostrar(error, 'error')
@@ -32,12 +38,14 @@ async function enviar() {
   }
 
   const nombre = formulario.nombre.trim()
+  enviando.value = true
   const resultado = await registrar({
     nombre,
     correo: formulario.correo.trim().toLowerCase(),
     password: formulario.password,
     area: formulario.area,
   })
+  enviando.value = false
 
   if (!resultado.ok) {
     mostrar(resultado.mensaje, 'error')
@@ -103,8 +111,10 @@ async function enviar() {
       <MensajeEstado :texto="texto" :tipo="tipo" />
 
       <div class="grupo-botones">
-        <button type="submit">Registrarme</button>
-        <button type="button" @click="limpiarFormulario">Limpiar formulario</button>
+        <button type="submit" :disabled="enviando">
+          {{ enviando ? 'Registrando...' : 'Registrarme' }}
+        </button>
+        <button type="button" :disabled="enviando" @click="limpiarFormulario">Limpiar formulario</button>
       </div>
     </fieldset>
   </form>

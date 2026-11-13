@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { limpiarSesionLocal } from '../services/api'
 import { useSesion } from '../composables/useSesion'
 import { useTareas } from '../composables/useTareas'
 import { useTiempoReal } from '../composables/useTiempoReal'
@@ -12,10 +11,10 @@ import ListaTareas from '../components/ListaTareas.vue'
 import MensajeEstado from '../components/MensajeEstado.vue'
 
 const router = useRouter()
-const { usuario } = useSesion()
+const { usuario, expulsar } = useSesion()
 const usuarioId = computed(() => usuario.value ? usuario.value.id : '')
 
-const { tareas, cargar, crear, actualizar, eliminar } = useTareas(usuarioId)
+const { tareas, cargando, guardando, errorCarga, cargar, crear, actualizar, eliminar } = useTareas(usuarioId)
 const { aviso } = useTiempoReal(cargar, usuarioId)
 const { texto, tipo, mostrar } = useMensaje()
 
@@ -23,8 +22,11 @@ const tareaEnEdicion = ref(null)
 const claveFormulario = ref(0)
 
 function manejarFallo(resultado) {
+  if (resultado.cancelada) {
+    return
+  }
   if (resultado.estado === 401) {
-    limpiarSesionLocal()
+    expulsar()
     router.push({ name: 'login' })
     return
   }
@@ -84,6 +86,7 @@ onMounted(async () => {
       <FormularioTarea
         :key="claveFormulario"
         :tarea-edicion="tareaEnEdicion"
+        :enviando="guardando"
         @guardar="guardarTarea"
         @cancelar="terminarEdicion"
       />
@@ -95,6 +98,8 @@ onMounted(async () => {
       <ListaTareas
         :tareas="tareas"
         :usuario-id="usuarioId"
+        :cargando="cargando"
+        :error="errorCarga"
         @editar="tareaEnEdicion = $event"
         @eliminar="eliminarTarea"
       />

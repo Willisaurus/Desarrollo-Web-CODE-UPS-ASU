@@ -1,21 +1,23 @@
-import { reactive } from 'vue'
+const MENSAJE_RED = 'No se pudo conectar con el servidor. Verifica que el backend esté en ejecución.'
 
-const ERROR_CONEXION = {
-  exito: false,
-  error: { mensaje: 'No se pudo conectar con el servidor', detalles: [] },
+function crearCuerpoError(mensaje) {
+  return { exito: false, error: { mensaje, detalles: [] } }
 }
 
-export const estadoSesion = reactive({
-  usuario: null,
-  verificado: false,
-})
+function esCuerpoEstructurado(cuerpo) {
+  return Boolean(cuerpo && cuerpo.error && typeof cuerpo.error.mensaje === 'string')
+}
 
-export async function pedirApi(metodo, ruta, datos) {
-  const opciones = {
-    method: metodo,
-    headers: {},
-    credentials: 'include',
+async function leerCuerpo(respuesta) {
+  try {
+    return await respuesta.json()
+  } catch {
+    return null
   }
+}
+
+async function solicitar(metodo, ruta, { datos, signal } = {}) {
+  const opciones = { method: metodo, headers: {}, credentials: 'include', signal }
 
   if (datos !== undefined) {
     opciones.headers['Content-Type'] = 'application/json'
@@ -24,10 +26,29 @@ export async function pedirApi(metodo, ruta, datos) {
 
   try {
     const respuesta = await fetch(ruta, opciones)
-    const cuerpo = await respuesta.json()
-    return { ok: respuesta.ok, estado: respuesta.status, cuerpo }
-  } catch {
-    return { ok: false, estado: 0, cuerpo: ERROR_CONEXION }
+    const cuerpo = await leerCuerpo(respuesta)
+
+    if (!respuesta.ok) {
+      const cuerpoError = esCuerpoEstructurado(cuerpo)
+        ? cuerpo
+        : crearCuerpoError(`El servidor respondió con un error inesperado (código ${respuesta.status}).`)
+      return { ok: false, estado: respuesta.status, cuerpo: cuerpoError }
+    }
+
+    if (cuerpo === null) {
+      return {
+        ok: false,
+        estado: respuesta.status,
+        cuerpo: crearCuerpoError('El servidor devolvió una respuesta que no se pudo interpretar.'),
+      }
+    }
+
+    return { ok: true, estado: respuesta.status, cuerpo }
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      return { ok: false, estado: 0, cancelada: true, cuerpo: crearCuerpoError('Petición cancelada.') }
+    }
+    return { ok: false, estado: 0, cuerpo: crearCuerpoError(MENSAJE_RED) }
   }
 }
 
@@ -36,22 +57,20 @@ export function obtenerMensajeError(cuerpo) {
   if (detalles.length > 0) {
     return detalles.map(detalle => detalle.msg).join(' ')
   }
-  return (cuerpo && cuerpo.error && cuerpo.error.mensaje) || 'Ocurrió un error'
+  return (cuerpo && cuerpo.error && cuerpo.error.mensaje) || 'Ocurrió un error inesperado.'
 }
 
-export async function verificarSesionActiva(forzar = false) {
-  if (estadoSesion.verificado && !forzar) {
-    return estadoSesion.usuario
-  }
-
-  const respuesta = await pedirApi('GET', '/api/auth/perfil')
-  estadoSesion.usuario = respuesta.ok ? respuesta.cuerpo.datos : null
-  estadoSesion.verificado = true
-  return estadoSesion.usuario
+export const authApi = {
+  registrar: datos => solicitar('POST', '/api/auth/registro', { datos }),
+  iniciarSesion: datos => solicitar('POST', '/api/auth/login', { datos }),
+  perfil: () => solicitar('GET', '/api/auth/perfil'),
+  cerrarSesion: () => solicitar('POST', '/api/auth/logout'),
 }
 
-export function limpiarSesionLocal() {
-  estadoSesion.usuario = null
-  estadoSesion.verificado = true
+export const tareasApi = {
+  listar: signal => solicitar('GET', '/api/tareas', { signal }),
+  obtener: id => solicitar('GET', `/api/tareas/${id}`),
+  crear: datos => solicitar('POST', '/api/tareas', { datos }),
+  actualizar: (id, datos) => solicitar('PUT', `/api/tareas/${id}`, { datos }),
+  eliminar: id => solicitar('DELETE', `/api/tareas/${id}`),
 }
-

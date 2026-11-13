@@ -66,6 +66,9 @@ ul {
 }
 
 nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--blanco);
   text-decoration: none;
   font-weight: bold;

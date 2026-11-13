@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useSesion } from '../composables/useSesion'
 import { useValidaciones } from '../composables/useValidaciones'
 import { useMensaje } from '../composables/useMensaje'
@@ -16,17 +16,25 @@ const credenciales = reactive({
   password: '',
 })
 
+const enviando = ref(false)
+
 async function enviar() {
+  if (enviando.value) {
+    return
+  }
+
   const error = validarLogin(credenciales)
   if (error) {
     mostrar(error, 'error')
     return
   }
 
+  enviando.value = true
   const resultado = await iniciarSesion({
     correo: credenciales.correo.trim().toLowerCase(),
     password: credenciales.password,
   })
+  enviando.value = false
 
   if (!resultado.ok) {
     mostrar(resultado.mensaje, 'error')
@@ -68,7 +76,9 @@ async function enviar() {
       <MensajeEstado :texto="texto" :tipo="tipo" />
 
       <div class="grupo-botones">
-        <button type="submit">Ingresar</button>
+        <button type="submit" :disabled="enviando">
+          {{ enviando ? 'Ingresando...' : 'Ingresar' }}
+        </button>
       </div>
     </fieldset>
   </form>

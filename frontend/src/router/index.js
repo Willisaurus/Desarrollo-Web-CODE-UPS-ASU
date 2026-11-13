@@ -1,12 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
-import TareasView from '../views/TareasView.vue'
-import PerfilView from '../views/PerfilView.vue'
-import { verificarSesionActiva } from '../services/api'
+import { verificarSesionActiva } from '../composables/useSesion'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, posicionGuardada) {
+    if (to.hash) {
+      return { el: to.hash, behavior: 'smooth' }
+    }
+    return posicionGuardada || { top: 0 }
+  },
   routes: [
     {
       path: '/',
@@ -23,13 +27,13 @@ const router = createRouter({
     {
       path: '/tareas',
       name: 'tareas',
-      component: TareasView,
+      component: () => import('../views/TareasView.vue'),
       meta: { requiereAuth: true, titulo: 'Dashboard de Tareas - CODE UPS' },
     },
     {
       path: '/perfil',
       name: 'perfil',
-      component: PerfilView,
+      component: () => import('../views/PerfilView.vue'),
       meta: { requiereAuth: true, titulo: 'Perfil del Estudiante - CODE UPS' },
     },
     {
@@ -39,7 +43,6 @@ const router = createRouter({
   ],
 })
 
-// Guardia de navegación global: protege rutas privadas y redirige si ya hay sesión en /login
 router.beforeEach(async (to) => {
   const usuario = await verificarSesionActiva()
 
@@ -57,4 +60,3 @@ router.beforeEach(async (to) => {
 })
 
 export default router
-
