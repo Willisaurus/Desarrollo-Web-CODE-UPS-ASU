@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "API de tareas y eventos para estudiantes del grupo ASU CodeUPS",
   "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",

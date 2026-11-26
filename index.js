@@ -21,10 +21,31 @@ mongoose.set('sanitizeFilter', true);
 const app = express();
 const servidor = http.createServer(app);
 
+const origenesPermitidos = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+    .split(',')
+    .map(origen => origen.trim().replace(/\/+$/, ''))
+    .filter(Boolean);
+
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin(origen, callback) {
+        if (!origen || origenesPermitidos.includes(origen.replace(/\/+$/, ''))) {
+            return callback(null, true);
+        }
+        callback(new Error('Origen no permitido por CORS'));
+    },
     credentials: true
 };
+
+function registrarPeticion(req, res, next) {
+    const inicio = Date.now();
+    res.on('finish', () => {
+        if (process.env.NODE_ENV !== 'test') {
+            const duracion = Date.now() - inicio;
+            console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} ${res.statusCode} ${duracion}ms`);
+        }
+    });
+    next();
+}
 
 app.set('trust proxy', 1);
 
@@ -41,12 +62,22 @@ const sesion = session({
 });
 
 app.use(cors(corsOptions));
+app.use(registrarPeticion);
 app.use(express.json());
 app.use(sesion);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/estado', (req, res) => {
-    res.json({ exito: true, mensaje: 'API de CodeUPS funcionando correctamente' });
+    const bdConectada = mongoose.connection.readyState === 1;
+    const estadoHttp = bdConectada ? 200 : 503;
+    res.status(estadoHttp).json({
+        exito: bdConectada,
+        mensaje: bdConectada
+            ? 'API de CodeUPS funcionando correctamente'
+            : 'API activa, pero sin conexión a MongoDB',
+        baseDatos: bdConectada ? 'conectada' : 'desconectada',
+        marcaTiempo: new Date().toISOString()
+    });
 });
 
 app.use('/api/auth', authRoutes);
