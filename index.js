@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/codeups_db';
 const SESSION_SECRET = process.env.SESSION_SECRET || 'clave_secreta_codeups_2026';
 const DOS_HORAS = 1000 * 60 * 60 * 2;
-const EN_PRODUCCION = process.env.NODE_ENV === 'production';
+const EN_PRODUCCION = process.env.NODE_ENV === 'production' || Boolean(process.env.RAILWAY_ENVIRONMENT);
 
 mongoose.set('sanitizeFilter', true);
 
@@ -47,16 +47,18 @@ function registrarPeticion(req, res, next) {
     next();
 }
 
-app.set('trust proxy', 1);
+app.set('trust proxy', true);
 
 const sesion = session({
     secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
         httpOnly: true,
         secure: EN_PRODUCCION,
         sameSite: EN_PRODUCCION ? 'none' : 'lax',
+        partitioned: EN_PRODUCCION,
         maxAge: DOS_HORAS
     }
 });

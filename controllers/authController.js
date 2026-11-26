@@ -48,7 +48,12 @@ async function iniciarSesion(req, res, next) {
                 return next(error);
             }
             Object.assign(req.session, crearDatosSesion(estudiante));
-            res.status(200).json(formatearExito('Sesión iniciada correctamente', crearPerfilPublico(req.session)));
+            req.session.save(errorGuardado => {
+                if (errorGuardado) {
+                    return next(errorGuardado);
+                }
+                res.status(200).json(formatearExito('Sesión iniciada correctamente', crearPerfilPublico(req.session)));
+            });
         });
     } catch (error) {
         next(error);
