@@ -1,4 +1,5 @@
 const { Server } = require('socket.io');
+const { verificarTokenSesion, extraerTokenCabecera } = require('../utils/transformaciones');
 
 let io = null;
 
@@ -7,8 +8,14 @@ function iniciarNotificaciones(servidorHttp, middlewareSesion, opcionesCors) {
     io.engine.use(middlewareSesion);
 
     io.use((socket, next) => {
-        const sesion = socket.request.session;
-        if (sesion && sesion.usuarioId) {
+        const sesion = socket.request.session || {};
+        if (sesion.usuarioId) {
+            return next();
+        }
+        const token = (socket.handshake.auth && socket.handshake.auth.token) || extraerTokenCabecera(socket.handshake.headers);
+        const datos = verificarTokenSesion(token);
+        if (datos) {
+            socket.request.session = Object.assign(sesion, datos);
             return next();
         }
         next(new Error('No autorizado'));

@@ -1,5 +1,6 @@
 import { ref, onMounted, onUnmounted, toValue } from 'vue'
 import { io } from 'socket.io-client'
+import { obtenerTokenSesion } from '../services/api'
 
 const API_URL = import.meta.env.VITE_API_URL || undefined
 const DURACION_AVISO = 5000
@@ -30,7 +31,10 @@ export function useTiempoReal(alCambiar, usuarioId) {
   }
 
   onMounted(() => {
-    socket = io(API_URL, { withCredentials: true })
+    socket = io(API_URL, {
+      withCredentials: true,
+      auth: cb => cb({ token: obtenerTokenSesion() }),
+    })
     Object.keys(ACCIONES).forEach(evento => {
       socket.on(evento, datos => manejarCambio(evento, datos))
     })

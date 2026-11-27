@@ -14,7 +14,7 @@ function manejarErrores(err, req, res, next) {
     if (err.name === 'ValidationError' || err.name === 'CastError') {
         return res.status(400).json(formatearError('Datos de entrada inválidos'));
     }
-    console.error(err);
+    console.error(`[ERROR ${req.method} ${req.originalUrl}]`, err.message || err);
     res.status(500).json(formatearError('Error interno del servidor'));
 }
 

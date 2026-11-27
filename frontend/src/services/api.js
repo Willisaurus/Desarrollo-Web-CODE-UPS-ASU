@@ -1,5 +1,32 @@
 const API_URL = import.meta.env.VITE_API_URL || ''
+const CLAVE_TOKEN = 'codeups_token_sesion'
 const MENSAJE_RED = 'No se pudo conectar con el servidor. Verifica que el backend esté en ejecución.'
+
+export function obtenerTokenSesion() {
+  try {
+    return sessionStorage.getItem(CLAVE_TOKEN) || ''
+  } catch {
+    return ''
+  }
+}
+
+function guardarTokenSesion(token) {
+  try {
+    if (token) {
+      sessionStorage.setItem(CLAVE_TOKEN, token)
+    }
+  } catch {
+    // sessionStorage no disponible
+  }
+}
+
+export function limpiarTokenSesion() {
+  try {
+    sessionStorage.removeItem(CLAVE_TOKEN)
+  } catch {
+    // sessionStorage no disponible
+  }
+}
 
 function crearCuerpoError(mensaje) {
   return { exito: false, error: { mensaje, detalles: [] } }
@@ -19,6 +46,11 @@ async function leerCuerpo(respuesta) {
 
 async function solicitar(metodo, ruta, { datos, signal } = {}) {
   const opciones = { method: metodo, headers: {}, credentials: 'include', signal }
+  const tokenActual = obtenerTokenSesion()
+
+  if (tokenActual) {
+    opciones.headers['Authorization'] = `Bearer ${tokenActual}`
+  }
 
   if (datos !== undefined) {
     opciones.headers['Content-Type'] = 'application/json'
@@ -27,6 +59,12 @@ async function solicitar(metodo, ruta, { datos, signal } = {}) {
 
   try {
     const respuesta = await fetch(`${API_URL}${ruta}`, opciones)
+    const tokenNuevo = respuesta.headers.get('x-session-token')
+    if (tokenNuevo) {
+      guardarTokenSesion(tokenNuevo)
+    } else if (ruta === '/api/auth/logout' || (respuesta.status === 401 && ruta !== '/api/auth/login')) {
+      limpiarTokenSesion()
+    }
     const cuerpo = await leerCuerpo(respuesta)
 
     if (!respuesta.ok) {

@@ -1,4 +1,4 @@
-const VERSION = 'v1'
+const VERSION = 'v2'
 const CACHE_SHELL = `codeups-shell-${VERSION}`
 const CACHE_ASSETS = `codeups-assets-${VERSION}`
 const CACHES_ACTUALES = [CACHE_SHELL, CACHE_ASSETS]

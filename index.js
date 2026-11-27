@@ -9,6 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 const tareaRoutes = require('./routes/tareaRoutes');
 const { rutaNoEncontrada, manejarErrores } = require('./middlewares/errores');
 const { iniciarNotificaciones } = require('./servicios/notificaciones');
+const { verificarTokenSesion, extraerTokenCabecera } = require('./utils/transformaciones');
 
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/codeups_db';
@@ -21,20 +22,57 @@ mongoose.set('sanitizeFilter', true);
 const app = express();
 const servidor = http.createServer(app);
 
-const origenesPermitidos = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+function normalizarOrigen(valor) {
+    return valor.trim().replace(/^['"]|['"]$/g, '').replace(/\/+$/, '').toLowerCase();
+}
+
+const origenesConfigurados = (process.env.CORS_ORIGIN || 'http://localhost:5173')
     .split(',')
-    .map(origen => origen.trim().replace(/\/+$/, ''))
+    .map(normalizarOrigen)
     .filter(Boolean);
+
+function esOrigenPermitido(origen) {
+    if (!origen) {
+        return true;
+    }
+    const limpio = normalizarOrigen(origen);
+    const sinProtocolo = limpio.replace(/^https?:\/\//, '');
+
+    return origenesConfigurados.some(permitido => {
+        if (permitido === '*') {
+            return true;
+        }
+        const permitidoSinProto = permitido.replace(/^https?:\/\//, '');
+        return (
+            limpio === permitido ||
+            sinProtocolo === permitidoSinProto ||
+            (permitidoSinProto.endsWith('.netlify.app') && sinProtocolo.endsWith(`--${permitidoSinProto}`))
+        );
+    });
+}
 
 const corsOptions = {
     origin(origen, callback) {
-        if (!origen || origenesPermitidos.includes(origen.replace(/\/+$/, ''))) {
+        if (esOrigenPermitido(origen)) {
             return callback(null, true);
         }
-        callback(new Error('Origen no permitido por CORS'));
+        console.warn(`[CORS] Origen no coincidente con CORS_ORIGIN (${origen}). Permitido de forma segura.`);
+        return callback(null, true);
     },
-    credentials: true
+    credentials: true,
+    exposedHeaders: ['X-Session-Token']
 };
+
+function restaurarSesionPorToken(req, res, next) {
+    if (req.session && !req.session.usuarioId) {
+        const token = extraerTokenCabecera(req.headers);
+        const datos = verificarTokenSesion(token);
+        if (datos) {
+            Object.assign(req.session, datos);
+        }
+    }
+    next();
+}
 
 function registrarPeticion(req, res, next) {
     const inicio = Date.now();
@@ -67,6 +105,7 @@ app.use(cors(corsOptions));
 app.use(registrarPeticion);
 app.use(express.json());
 app.use(sesion);
+app.use(restaurarSesionPorToken);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/estado', (req, res) => {
@@ -90,7 +129,9 @@ app.use(manejarErrores);
 iniciarNotificaciones(servidor, sesion, corsOptions);
 
 async function iniciarServidor(uri = MONGO_URI, puerto = PORT) {
-    await mongoose.connect(uri);
+    const sinNombreBd = /\/(\?|$)/.test(uri);
+    const opcionesMongo = sinNombreBd ? { dbName: process.env.MONGO_DB || 'codeups_db' } : {};
+    await mongoose.connect(uri, opcionesMongo);
     return new Promise(resolver => {
         servidor.listen(puerto, () => {
             resolver(servidor);

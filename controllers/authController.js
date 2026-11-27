@@ -5,7 +5,10 @@ const {
     formatearError,
     formatearExito,
     crearDatosSesion,
-    crearPerfilPublico
+    crearPerfilPublico,
+    crearTokenSesion,
+    revocarTokenSesion,
+    extraerTokenCabecera
 } = require('../utils/transformaciones');
 
 const CODIGO_DUPLICADO = 11000;
@@ -47,11 +50,14 @@ async function iniciarSesion(req, res, next) {
             if (error) {
                 return next(error);
             }
-            Object.assign(req.session, crearDatosSesion(estudiante));
+            const datosSesion = crearDatosSesion(estudiante);
+            Object.assign(req.session, datosSesion);
             req.session.save(errorGuardado => {
                 if (errorGuardado) {
                     return next(errorGuardado);
                 }
+                const token = crearTokenSesion(datosSesion);
+                res.setHeader('X-Session-Token', token);
                 res.status(200).json(formatearExito('Sesión iniciada correctamente', crearPerfilPublico(req.session)));
             });
         });
@@ -66,6 +72,7 @@ function obtenerPerfil(req, res) {
 
 function cerrarSesion(req, res, next) {
     const usuarioId = req.session.usuarioId;
+    revocarTokenSesion(extraerTokenCabecera(req.headers));
     desconectarUsuario(usuarioId);
 
     req.session.destroy(error => {
